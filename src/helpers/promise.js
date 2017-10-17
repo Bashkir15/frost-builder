@@ -23,6 +23,13 @@ const promisify = fn => {
 	};
 };
 
+const each = async (arr, fn) => {
+	for (const item of arr) {
+		await fn(item);
+	}
+};
+
 module.exports = {
-	promisify
+	promisify,
+	each
 };
