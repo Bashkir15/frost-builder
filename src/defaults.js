@@ -13,6 +13,13 @@ const defaults = {
 
 	build: {
 		enableSourceMaps: true,
+	},
+
+	files: {
+		babel: /\.(js|mjs|jsx)$/,
+		styles: /\.(css|sss|pcss)$/,
+		raster: /\.(jpg|png|gif)$/,
+		fonts: /\.(eot|svg|otf|ttf|woff|woff2)$/,
 	}
 };
 

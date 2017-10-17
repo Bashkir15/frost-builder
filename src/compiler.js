@@ -78,7 +78,7 @@ module.exports = (target, env = 'development', config = {}) => {
 		module: {
 			rules: [
 				{
-					test: /\.(js|jsx)$/,
+					test: config.files.babel,
 					loader: 'source-map-loader',
 					enforce: 'pre',
 					options: {
@@ -86,10 +86,32 @@ module.exports = (target, env = 'development', config = {}) => {
 					},
 				},
 				{
-					test: /\.(js|jsx)$/,
+					test: config.files.babel,
 					use: {
 						loader: 'babel-loader'
 					}
+				},
+				{
+					test: config.files.raster,
+					use: [
+						'file-loader',
+						{
+							loader: 'image-webpack-loader',
+							options: {
+								progressive: true,
+								optimizationLevel: 7,
+								interlaced: false,
+								pngquant: {
+									quality: '65-90',
+									speed: 4
+								}
+							}
+						}
+					]
+				},
+				{
+					test: config.files.fonts,
+					use: 'file-loader'
 				}
 			]
 		},
