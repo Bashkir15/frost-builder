@@ -9,6 +9,10 @@ const defaults = {
 	output: {
 		client: 'build/client',
 		server: 'build/server'
+	},
+
+	build: {
+		enableSourceMaps: true,
 	}
 };
 

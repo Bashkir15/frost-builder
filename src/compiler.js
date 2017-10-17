@@ -34,13 +34,19 @@ module.exports = (target, env = 'development', config = {}) => {
 	} = buildEntryAndOutput(config, isServer, isDev);
 
 	const prefix = chalk.bold(target.toUpperCase());
+	const devtool = config.build.enableSourceMaps ? 'source-map' : false;
 
 	console.log(chalk.underline(`${prefix} Configuration`));
 	console.log(`→ Environment: ${env}`);
 	console.log(`→ WebpackTarget: ${webpackTarget}`);
 
+	if (config.verbose) {
+		console.log(`→ Enable Source Maps: ${devtool}`);
+	}
+
 	return {
 		name,
+		devtool,
 		target: webpackTarget,
 		context: Root,
 		entry: removeEmptyKeys({
@@ -71,6 +77,14 @@ module.exports = (target, env = 'development', config = {}) => {
 
 		module: {
 			rules: [
+				{
+					test: /\.(js|jsx)$/,
+					loader: 'source-map-loader',
+					enforce: 'pre',
+					options: {
+						quiet: true
+					},
+				},
 				{
 					test: /\.(js|jsx)$/,
 					use: {
