@@ -110,6 +110,15 @@ module.exports = (target, env = 'development', config = {}) => {
 					]
 				},
 				{
+					test: /\.(mp4|webm)$/,
+					use: {
+						loader: 'url-loader',
+						options: {
+							limit: 10000,
+						}
+					}
+				},
+				{
 					test: config.files.fonts,
 					use: 'file-loader'
 				}
