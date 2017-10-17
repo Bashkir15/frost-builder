@@ -18,8 +18,8 @@ const cli = meow(`
 		clean
 `);
 
-const input = command.input;
-const flags = command.flags;
+const input = cli.input;
+const flags = cli.flags;
 
 const tasks = [
 	{ task: 'clean', commands: [ cleanClient, cleanServer ]},

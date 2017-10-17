@@ -12,7 +12,7 @@ const removeEmptyKeys = require('./helpers/emptyKeys');
 const Root = getRoot();
 const pkg = require(resolve(Root, 'package.json'));
 
-module.exports = (target, env === 'development', config = {}) => {
+module.exports = (target, env = 'development', config = {}) => {
 	const {
 		isClient,
 		isServer,
@@ -71,9 +71,11 @@ module.exports = (target, env === 'development', config = {}) => {
 
 		module: {
 			rules: [
-				test: /\.(js|jsx)$/,
-				use: {
-					loader: 'babel-loader'
+				{
+					test: /\.(js|jsx)$/,
+					use: {
+						loader: 'babel-loader'
+					}
 				}
 			]
 		},

@@ -15,7 +15,8 @@ const buildClient = (config = {}) => {
 	const webpackConfig = compiler('client', 'production', config);
 	return new Promise((resolve, reject) => {
 		webpack(webpackConfig, (fatalError, stats) => {
-			return formatOutput(fatalError, stats, 'client');
+			return formatOutput(fatalError, stats, 'client')
+				.catch(err => console.error(err));
 		});
 	});
 };

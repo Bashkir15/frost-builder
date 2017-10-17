@@ -18,11 +18,18 @@ const formatRaw = (message, isError) => {
 
 	lines = lines.filter(line => lines.indexOf(' @ ') !== 0);
 	if (!lines[0] || !lines[1]) lines.join('\n');
+
+	if (lines[1].indexOf('Module build failed: ') === 0) {
+		lines[1] = lines[1].replace(
+			'Module build failed: SyntaxError:',
+			SyntaxLabel
+		);
+	}
 };
 
 const formatWebpack = json => {
-	const errors = json.errors.map(message => formatRaw(message));
-	const warnings = json.warnings.map(message => formatRaw(message));
+	const errors = json.errors.map(message => formatRaw(message, true));
+	const warnings = json.warnings.map(message => formatRaw(message, false));
 	const result = {
 		errors,
 		warnings
