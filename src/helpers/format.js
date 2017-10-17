@@ -1,0 +1,62 @@
+'use strict';
+
+const chalk = require('chalk');
+
+const SyntaxLabel = 'Syntax Error';
+const SyntaxError = message => message.includes(SyntaxLabel);
+
+const formatRaw = (message, isError) => {
+	let lines = message.split('\n');
+
+	if (lines.length > 2 && lines[1] === '') {
+		lines.splice(1, 1);
+	}
+
+	if (lines[0].lastIndexOf('!') !== -1) {
+		lines[0] = lines[0].substr(lines[0].lastIndexOf('!') + 1);
+	}
+
+	lines = lines.filter(line => lines.indexOf(' @ ') !== 0);
+	if (!lines[0] || !lines[1]) lines.join('\n');
+};
+
+const formatWebpack = json => {
+	const errors = json.errors.map(message => formatRaw(message));
+	const warnings = json.warnings.map(message => formatRaw(message));
+	const result = {
+		errors,
+		warnings
+	};
+
+	return result;
+};
+
+const formatOutput = (error, stats, target) => {
+	if (error) {
+		const msg = `Fatal errors during compiling ${target}: ${error}`;
+		console.log(chalk.red(msg));
+		return Promise.reject(msg);
+	}
+
+	const raw = stats.toJson({});
+	const messages = formatWebpack(raw);
+	const isSuccessful = !messages.errors.length && !messages.warnings.length;
+	if (isSuccessful) {
+		console.log(chalk.green(`Compiled ${target} successfully`));
+	}
+
+	if (messages.errors.length) {
+		console.log(chalk.red(`Failed to compile ${target}!\n`));
+		console.log(messages.errors.join('\n\n'));
+		return Promise.reject(`Failed to compile ${target}!`);
+	}
+
+	if (messages.warnings.length && !messages.errors.length) {
+		console.log(chalk.yellow(`Compiled ${target} with warnings.\n`));
+		console.log(messages.warnings.join('\n\n'));
+	}
+
+	return Promise.resolve(true);
+};
+
+module.exports = formatOutput;
