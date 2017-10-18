@@ -41,6 +41,7 @@ const exec = (command, args) => {
 	return execFileSync(command, args, options);
 };
 
+
 module.exports = ({ prettierOptions, prettierPatterns}, mode) => {
 	const shouldWrite = mode === 'write' || mode === 'write-changed';
 	const onlyChanged = mode === 'check-changed' || mode === 'write-changed';	
@@ -61,9 +62,7 @@ module.exports = ({ prettierOptions, prettierPatterns}, mode) => {
 			: `${patterns.join(',')}`;
 		const files = glob
 			.sync(globPattern, {ignore})
-
-		console.log(globPattern);
-		console.log(files);
+			.filter(f => !onlyChanged);
 
 		if (!files.length) {
 			return;

@@ -43,7 +43,8 @@ const tasks = [
 	{ task: 'build:client', commands: [ cleanClient, buildClient ]},
 	{ task: 'build:server', commands: [ cleanServer, buildServer ]},
 	{ task: 'prettier', commands: [ runPrettier ]},
-	{ task: 'prettier:all', commands: [ runPrettier ]}
+	{ task: 'prettier:all', commands: [ runPrettier ]},
+	{ task: 'prepare', commands: [ cleanClient, cleanServer, buildClient, buildServer, runPrettier ]}
 ];
 
 if (!flags.verbose) {
@@ -63,7 +64,7 @@ async function executeTasks() {
 				if (name === 'prettier') {
 					mode = 'write';
 				}
-				if (name === 'prettier:all') {
+				if (name === 'prettier:all' || name === 'prepare') {
 					mode = 'write-changed';
 				}
 
