@@ -17,7 +17,7 @@ const formatRaw = (message, isError) => {
 	}
 
 	lines = lines.filter(line => lines.indexOf(' @ ') !== 0);
-	if (!lines[0] || !lines[1]) lines.join('\n');
+	if (!lines[0] || !lines[1]) return lines.join('\n');
 
 	if (lines[1].indexOf('Module build failed: ') === 0) {
 		lines[1] = lines[1].replace(
@@ -25,6 +25,10 @@ const formatRaw = (message, isError) => {
 			SyntaxLabel
 		);
 	}
+
+	lines[0] = chalk.inverse(lines[0]);
+	message = lines.join('\n');
+	return message.trim();
 };
 
 const formatWebpack = json => {
@@ -46,6 +50,7 @@ const formatOutput = (error, stats, target) => {
 	}
 
 	const raw = stats.toJson({});
+	console.log()
 	const messages = formatWebpack(raw);
 	const isSuccessful = !messages.errors.length && !messages.warnings.length;
 	if (isSuccessful) {
@@ -55,7 +60,7 @@ const formatOutput = (error, stats, target) => {
 	if (messages.errors.length) {
 		console.log(chalk.red(`Failed to compile ${target}!\n`));
 		console.log(messages.errors.join('\n\n'));
-		return Promise.reject(`Failed to compile ${target}!`);
+		return Promise.reject(`Failed to compile ${target}\n ${messages.errors.join('\n\n')}`);
 	}
 
 	if (messages.warnings.length && !messages.errors.length) {

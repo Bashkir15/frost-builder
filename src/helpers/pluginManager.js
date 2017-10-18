@@ -6,6 +6,7 @@ const StatsPlugin = require('stats-webpack-plugin');
 const UglifyPlugin = require('uglifyjs-webpack-plugin');
 const BabiliMinifyPlugin = require('babel-minify-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const SriPlugin = require('webpack-subresource-integrity');
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -33,6 +34,10 @@ const clientPlugins = (isDev, isProd, hasHmr, build, uglifyCache) => {
 				? '[name].css'
 				: '[name]-[contenthash:base62:8].css'
 		}),
+		isProd ? new SriPlugin({
+			hashFuncNames: [ 'sha256', 'sha512' ],
+			enabled: true
+		}) : null,
 		isProd ? new StatsPlugin('stats.json') : null,
 		isProd ? new BundleAnalyzerPlugin({
 			analyzerMode: 'static',

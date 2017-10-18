@@ -3,7 +3,7 @@
 const { readdirSync } = require('fs');
 const { resolve } = require('path');
 const { readJsonSync } = require('fs-extra');
-const builtinModules = require('buildin-modules');
+const builtinModules = require('builtin-modules');
 
 const root = 'node_modules';
 
@@ -15,18 +15,15 @@ const Webpack = new Set([
 	'webpack-flush-chunks'
 ]);
 
-const getJson = pkg => {
+const NodePackages = readdirSync(root).filter(dirname => dirname.charAt(0) !== '.');
+NodePackages.forEach(pkg => {
 	let json;
 	try {
 		json = readJsonSync(resolve(root, pkg, 'package.json'));
 	} catch (error) {
 		return;
 	}
-};
 
-const NodePackages = readdirSync(root).filter(dirname => dirname.charAt(0) !== '.');
-NodePackages.forEach(pkg => {
-	const json = getJson(pkg);
 	if (json.module || json.style || json['jsnext:main']) {
 		Modules.add(pkg);
 	}

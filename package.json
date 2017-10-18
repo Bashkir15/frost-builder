@@ -4,6 +4,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-minify-webpack-plugin": "^0.2.0",
+    "builtin-modules": "^1.1.1",
     "cache-loader": "^1.1.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.1",
     "chalk": "^2.1.0",
@@ -12,6 +13,7 @@
     "extract-css-chunks-webpack-plugin": "^2.0.17",
     "file-loader": "^1.1.5",
     "fs-extra": "^4.0.2",
+    "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
     "image-webpack-loader": "^3.4.2",
     "jsome": "^2.3.26",
@@ -25,6 +27,7 @@
     "url-loader": "^0.6.2",
     "webpack": "^3.8.1",
     "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-subresource-integrity": "^1.0.1",
     "yaml-loader": "^0.5.0"
   }
 }
