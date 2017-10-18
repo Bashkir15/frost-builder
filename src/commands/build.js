@@ -42,6 +42,5 @@ module.exports = {
 	buildServer,
 	cleanServer,
 	cleanClient,
-	buildClientWithSizes
 };
 
