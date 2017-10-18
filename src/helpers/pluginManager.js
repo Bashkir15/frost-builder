@@ -13,6 +13,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const MissingModulesPlugin = require('../plugins/MissingModules');
 const ChunkHashPlugin = require('../plugins/ChunkHash');
+const ProgressPlugin = require('../plugins/Progress');
 
 const basePlugins = (env, webpackTarget, isDev, isProd) => {
 	return [
@@ -23,6 +24,9 @@ const basePlugins = (env, webpackTarget, isDev, isProd) => {
 			}
 		}),
 
+		process.stdout.isTTY ? new ProgressPlugin({
+			prefix: 'frost'
+		}) : null,
 		new CaseSensitivePathsPlugin(),
 		isDev ? new webpack.NamedModulesPlugin() : null,
 		isDev ? new webpack.NoEmitOnErrorsPlugin() : null,
