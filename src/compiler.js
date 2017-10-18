@@ -117,7 +117,8 @@ module.exports = (target, env = 'development', config = {}) => {
 					use: [
 						cacheLoader,
 						{
-							loader: 'babel-loader'
+							loader: 'babel-loader',
+							options: config.babelOptions
 						}
 					].filter(Boolean)
 				},

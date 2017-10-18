@@ -11,6 +11,10 @@ const defaults = {
 		server: 'build/server'
 	},
 
+	babelOptions: {
+		presets: [],
+		plugins: []
+	},
 	build: {
 		enableSourceMaps: true,
 		bundleCompression: 'babili',
@@ -43,6 +47,7 @@ const defaults = {
 		raster: /\.(jpg|png|gif)$/,
 		fonts: /\.(eot|svg|otf|ttf|woff|woff2)$/,
 		yaml: /\.(yml|yaml)$/,
+		graphql: /\.(graphql|gql)$/
 	},
 };
 
