@@ -31,8 +31,14 @@ const basePlugins = (env, webpackTarget, isDev, isProd) => {
 	].filter(Boolean)
 };
 
-const clientPlugins = (isDev, isProd, hasHmr, build, uglifyCache) => {
+const clientPlugins = (isDev, isProd, hasHmr, build, uglifyCache, hasVendor) => {
 	return [
+		hasVendor ? new webpack.optimize.CommonsChunkPlugin({
+			name: 'vendor',
+			children: true,
+			minChunks: 2,
+			async: true
+		}) : null,
 		new ExtractCssChunks({
 			filename: isDev
 				? '[name].css'
@@ -81,7 +87,7 @@ const serverPlugins = (isDev, isProd, build) => {
 };
 
 
-const managePlugins = (env, webpackTarget, isDev, isProd, isServer, hasHmr, { build }, uglifyCache) => {
+const managePlugins = (env, webpackTarget, isDev, isProd, isServer, hasHmr, { build }, uglifyCache, hasVendor) => {
 	const base = basePlugins(env, webpackTarget, isDev, isProd);
 	const plugins = isServer 
 		? base.concat(...serverPlugins(isDev, isProd, build))
