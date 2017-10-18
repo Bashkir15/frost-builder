@@ -2,11 +2,17 @@
 
 const { buildClient, buildServer, cleanClient, cleanServer } = require('./commands/build');
 const runPrettier = require('./commands/prettier');
+const startDevServer = require('./commands/dev');
+const startProdServer = require('./commands/prod');
+const compiler = require('./compiler');
 
 module.exports = {
 	buildServer,
 	buildClient,
 	cleanServer,
 	cleanClient,
-	runPrettier
+	startDevServer,
+	startProdServer
+	runPrettier,
+	compiler
 };
