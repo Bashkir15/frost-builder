@@ -2,7 +2,7 @@
 
 const promisify = fn => {
 	if (typeof fn !== 'function') {
-		throw new Erorr(`Argument passed must be a function. Received ${typeof fn}`);
+		throw new Error(`Argument passed must be a function. Received ${typeof fn}`);
 	}
 
 	return (...args) => {
@@ -11,7 +11,7 @@ const promisify = fn => {
 				if (err) {
 					reject(err);
 				} else {
-					const data = args.length <= 1
+					const data = args.length >= 1
 						? args[0]
 						: args
 					resolve(data);
