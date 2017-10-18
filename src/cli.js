@@ -6,17 +6,32 @@ const chalk = require('chalk');
 const { Root, getConfig } = require('./config');
 const { buildClient, buildServer, cleanClient, cleanServer } = require('./commands/build');
 const { each } = require('./helpers/promise');
+const { clearConsole } = require('./helpers/console');
+
+const isInteractive = process.stdout.isTTY;
+if (isInteractive) {
+	clearConsole();
+}
 
 const cli = meow(`
 	Usage:
 		$ frost <command>
+
+	Options:
+		--verbose, -v
+		--quiet, -q
 
 	Commands:
 		build
 		build:client
 		build:server
 		clean
-`);
+`, {
+	alias: {
+		v: 'verbose',
+		q: 'quiet'
+	}
+});
 
 const input = cli.input;
 const flags = cli.flags;
@@ -27,6 +42,10 @@ const tasks = [
 	{ task: 'build:client', commands: [ cleanClient, buildClient ]},
 	{ task: 'build:server', commands: [ cleanServer, buildServer ]}
 ];
+
+if (!flags.verbose) {
+	process.noDeprecation = true;
+}
 
 function execute(commands, config) {
 	return each(commands, (item) => item(config));

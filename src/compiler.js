@@ -66,9 +66,8 @@ module.exports = (target, env = 'development', config = {}) => {
 	if (config.verbose) {
 		console.log(`→ Enable Source Maps: ${devtool}`);
 		console.log(`→ Bundle Compression: ${config.build.bundleCompression}`);
+		console.log(`→ Use Cache Loader: ${config.build.useCacheLoader} [Hash: ${loaderCache}]`);
 	}
-
-
 
 	return {
 		name,
