@@ -2,6 +2,7 @@
 
 const meow = require('meow');
 const chalk = require('chalk');
+const updateNotifier = require('update-notifier');
 
 const { Root, getConfig } = require('./config');
 const { buildClient, buildServer, cleanClient, cleanServer } = require('./commands/build');
@@ -11,10 +12,21 @@ const startProdServer = require('./commands/prod');
 const { each } = require('./helpers/promise');
 const { clearConsole } = require('./helpers/console');
 
+const pkg = require('../package.json');
+const appPkg = require(Root, '/package.json');
+const appInfo = `running on ${chalk.bold.blue(appPkg.name)}-${appPkg.version}`;
+
 const isInteractive = process.stdout.isTTY;
 if (isInteractive) {
 	clearConsole();
 }
+
+console.log(chalk.bold(`Frost ${chalk.green(`v ${pkg.version}`)} ${appInfo}`);
+
+updateNotifier({
+	pkg,
+	updateCheckInterval: 1000 * 60 * 60
+}).notify();
 
 const cli = meow(`
 	Usage:
