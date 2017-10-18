@@ -11,6 +11,7 @@ const SriPlugin = require('webpack-subresource-integrity');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const MissingModulesPlugin = require('../plugins/MissingModules');
+const ChunkHashPlugin = require('../plugins/ChunkHash');
 
 const basePlugins = (env, webpackTarget, isDev, isProd) => {
 	return [
@@ -26,6 +27,7 @@ const basePlugins = (env, webpackTarget, isDev, isProd) => {
 		isDev ? new webpack.NamedModulesPlugin() : null,
 		isDev ? new webpack.NoEmitOnErrorsPlugin() : null,
 		isProd ? new webpack.HashedModuleIdsPlugin() : null,
+		isProd ? new ChunkHashPlugin() : null,
 	].filter(Boolean)
 };
 
