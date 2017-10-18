@@ -42,6 +42,7 @@ const defaults = {
 		styles: /\.(css|sss|pcss)$/,
 		raster: /\.(jpg|png|gif)$/,
 		fonts: /\.(eot|svg|otf|ttf|woff|woff2)$/,
+		yaml: /\.(yml|yaml)$/,
 	},
 };
 

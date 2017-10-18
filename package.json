@@ -12,8 +12,10 @@
     "extract-css-chunks-webpack-plugin": "^2.0.17",
     "file-loader": "^1.1.5",
     "fs-extra": "^4.0.2",
+    "graphql-tag": "^2.5.0",
     "image-webpack-loader": "^3.4.2",
     "jsome": "^2.3.26",
+    "json-loader": "^0.5.7",
     "loader-utils": "^1.1.0",
     "lodash": "^4.17.4",
     "meow": "^3.7.0",
@@ -22,6 +24,7 @@
     "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
     "url-loader": "^0.6.2",
     "webpack": "^3.8.1",
-    "webpack-bundle-analyzer": "^2.9.0"
+    "webpack-bundle-analyzer": "^2.9.0",
+    "yaml-loader": "^0.5.0"
   }
 }

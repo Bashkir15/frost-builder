@@ -11,6 +11,7 @@ const { configureCompiler, buildEntryAndOutput } = require('./helpers/compiler')
 const removeEmptyKeys = require('./helpers/emptyKeys');
 const pluginManager = require('./helpers/pluginManager');
 const cacheHash = require('./helpers/hash');
+const getExternals = require('./helpers/getExternals');
 
 const Root = getRoot();
 const pkg = require(resolve(Root, 'package.json'));
@@ -74,6 +75,7 @@ module.exports = (target, env = 'development', config = {}) => {
 		devtool,
 		target: webpackTarget,
 		context: Root,
+		externals: isServer ? getExternals() : undefined,
 		entry: removeEmptyKeys({
 			vendors: hasVendor ? [
 				hasVendor && hasHrm
@@ -167,6 +169,14 @@ module.exports = (target, env = 'development', config = {}) => {
 				{
 					test: config.files.fonts,
 					use: 'file-loader'
+				},
+				{
+					test: config.files.yaml,
+					loaders: [ 'json-loader', 'yaml-loader' ]
+				},
+				{
+					test: config.files.graphql,
+					loader: 'graphql-tag/loader'
 				}
 			]
 		},
