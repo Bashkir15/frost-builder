@@ -57,6 +57,13 @@ module.exports = (target, env = 'development', config = {}) => {
 		sourceMap: config.build.enableSourceMaps
 	};
 
+	const postCssLoaderOptions = config.build.usePostCss ? {
+		loader: 'postcss-loader',
+		query: {
+			sourceMap: config.build.enableSourceMaps
+		}
+	} : null;
+
 	const plugins = pluginManager(env, webpackTarget, isDev, isProd, isServer, hasHrm, config, uglifyCache);
 
 	console.log(chalk.underline(`${prefix} Configuration`));
@@ -130,14 +137,16 @@ module.exports = (target, env = 'development', config = {}) => {
 							{
 								loader: 'css-loader',
 								options: cssLoaderOptions
-							}
+							},
+							postCssLoaderOptions,
 						].filter(Boolean)
 					}) : [
 						cacheLoader,
 						{
 							loader: 'css-loader/locals',
 							options: cssLoaderOptions
-						}
+						},
+						postCssLoaderOptions
 					].filter(Boolean)
 				},
 				{
