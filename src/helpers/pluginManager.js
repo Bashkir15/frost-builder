@@ -18,10 +18,10 @@ const ProgressPlugin = require('../plugins/Progress');
 const basePlugins = (env, webpackTarget, isDev, isProd) => {
 	return [
 		new webpack.DefinePlugin({
-			'process.env.': {
-				'NODE_ENV': JSON.stringify(env),
-				'TARGET': JSON.stringify(webpackTarget)
-			}
+			// These need to be kept separate to allow use
+			// with libraries like dotenv
+			'process.env.NODE_ENV': JSON.stringify(env),
+			'process.env.TARGET': JSON.stringify(webpackTarget)
 		}),
 
 		process.stdout.isTTY ? new ProgressPlugin({
