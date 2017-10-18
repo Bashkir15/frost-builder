@@ -8,6 +8,7 @@ const chalk = require('chalk');
 
 const { configureCompiler, buildEntryAndOutput } = require('./helpers/compiler');
 const removeEmptyKeys = require('./helpers/emptyKeys');
+const pluginManager = require('./helpers/pluginManager');
 
 const Root = getRoot();
 const pkg = require(resolve(Root, 'package.json'));
@@ -35,6 +36,7 @@ module.exports = (target, env = 'development', config = {}) => {
 
 	const prefix = chalk.bold(target.toUpperCase());
 	const devtool = config.build.enableSourceMaps ? 'source-map' : false;
+	const plugins = pluginManager(env, webpackTarget, isDev, isProd);
 
 	console.log(chalk.underline(`${prefix} Configuration`));
 	console.log(`→ Environment: ${env}`);
@@ -126,14 +128,7 @@ module.exports = (target, env = 'development', config = {}) => {
 		},
 
 		plugins: [
-			new webpack.DefinePlugin({
-				'process.env.': {
-					'NODE_ENV': JSON.stringify(env),
-					'TARGET': JSON.stringify(target)
-				}
-			}),
-
-			isDev ? new webpack.NoEmitOnErrorsPlugin() : null,
+			...plugins
 		].filter(Boolean)
 	};
 };

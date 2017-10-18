@@ -3,6 +3,7 @@
     "app-root-dir": "^1.0.2",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "case-sensitive-paths-webpack-plugin": "^2.1.1",
     "chalk": "^2.1.0",
     "cosmiconfig": "^3.1.0",
     "file-loader": "^1.1.5",
@@ -12,6 +13,7 @@
     "lodash": "^4.17.4",
     "meow": "^3.7.0",
     "source-map-loader": "^0.2.2",
+    "stats-webpack-plugin": "^0.6.1",
     "url-loader": "^0.6.2",
     "webpack": "^3.8.1"
   }
