@@ -18,14 +18,14 @@ The Frost Builder is meant to be a hands-off, easy way to get started with Moder
 - Easy to use cli interface, but also exports the core functionality to use in an application directly
 
 ## Install
-	```console
-		$ npm install -D frost-builder
-	```
+```console
+	$ npm install -D frost-builder
+```
 
 or
-	```console
+```console
 		$ yarn add -D frost-builder
-	```
+```
 
 ## Usage
 
@@ -40,7 +40,7 @@ Options:
 	--quiet, -q  		Surpresses everything but important warnings and errors
 
 Commands:
-    build  				Cleans the build directories and the produces a production build of client and server
+    build  		Cleans the build directories and the produces a production build of client and server
     build:client        Functions the same as build but only acts on the client bundles
     build:server        Functions the same as build but only acts on the server bundles
     clean               Cleans up the client and server build directories
