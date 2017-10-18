@@ -13,6 +13,27 @@ const defaults = {
 
 	build: {
 		enableSourceMaps: true,
+		bundleCompression: 'babili',
+		uglifyOptions: {
+			compress: {
+				unsafe_math: true,
+				unsafe_proto: true,
+				keep_infinity: true,
+				passes: 2
+			},
+			output: {
+				ascii_only: true,
+				comments: false
+			}
+		},
+		babiliClientOptions: {},
+		babiliServerOptions: {
+			booleans: false,
+			deadcode: true,
+			flipComparisons: false,
+			mangle: false,
+			mergeVars: false
+		}
 	},
 
 	files: {
@@ -20,7 +41,7 @@ const defaults = {
 		styles: /\.(css|sss|pcss)$/,
 		raster: /\.(jpg|png|gif)$/,
 		fonts: /\.(eot|svg|otf|ttf|woff|woff2)$/,
-	}
+	},
 };
 
 module.exports = defaults;

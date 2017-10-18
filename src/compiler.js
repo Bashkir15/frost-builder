@@ -36,7 +36,7 @@ module.exports = (target, env = 'development', config = {}) => {
 
 	const prefix = chalk.bold(target.toUpperCase());
 	const devtool = config.build.enableSourceMaps ? 'source-map' : false;
-	const plugins = pluginManager(env, webpackTarget, isDev, isProd);
+	const plugins = pluginManager(env, webpackTarget, isDev, isProd, isServer, hasHrm);
 
 	console.log(chalk.underline(`${prefix} Configuration`));
 	console.log(`→ Environment: ${env}`);
