@@ -4,3 +4,4 @@ client
 server
 *.cache
 .cache
+build.js

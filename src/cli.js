@@ -19,14 +19,17 @@ const cli = meow(`
 		$ frost <command>
 
 	Options:
-		--verbose, -v
-		--quiet, -q
+		--verbose, -v      Extensive messages to help developer experience
+		--quiet, -q        Silence everything but important warnings and errors
 
 	Commands:
-		build
-		build:client
-		build:server
-		clean
+		build              Runs clean and builds a production build for client and server
+		build:client 	   Cleans client build and produces a production build for client
+		build:server 	   Cleans server build and productions a production build for the server
+		clean 			   Cleans the client and server builds	
+		prettier           Runs prettier on changed files
+		prettier:all,      Runs prettier on all files
+		prepare            Runs the build command and then runs prettier:all on files
 `, {
 	alias: {
 		v: 'verbose',
