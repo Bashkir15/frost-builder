@@ -49,6 +49,54 @@ Commands:
     prepare             Runs build first, and then will run prettier:all to format code
 ```
 
+For a more concrete example, say you want to spin up a development server for an isomorphic application you are building. Frost makes that simple.
+
+```js
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import webpackHotServerMiddleware from 'webpack-hot-server-middle-ware';
+import express from 'express';
+import { compiler } from 'frost-builder';
+
+export function startServer(config = {}) {
+	const clientConfig = compiler('client', 'development', config);
+	const serverConfig = compiler('server', 'development', config);
+	const multiCompiler = webpack([ clientConfig, serverConfig ]);
+	const clientCompiler = multiCompiler.compilers[0];
+
+	const devMiddleware = webpackDevMiddleware(multiCompiler, {
+		publicPath: config.output.public,
+		quiet: true,
+		noInfo: true
+	});
+	const hotMiddleware = webpackHotMiddleware(clientCompiler);
+	const hotServerMiddleware = webpackHotServerMiddleware(multiCompiler, {
+		serverRendererOptions: {
+			outputPath: config.output.client
+		}
+	});
+
+	const server = express();
+	server.use(express.static(config.output.public, config.output.client));
+	server.use(devMiddleware);
+	server.use(hotMiddleware);
+	server.use(hotServerMiddleware);
+
+	let serverIsStarted = false;
+
+	multiCompiler.plugin('invalid', () => {
+		console.log('compiling...');
+	});
+
+	multiCompiler.plugin('done', stats => {
+		if (!stats.hasErrors() && !serverIsStarted) {
+			serverIsStarted = true;
+			server.listen(8000);
+		}
+	});
+}
+```
 
 ## Customizing
 ## Roadmap
