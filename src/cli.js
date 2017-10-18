@@ -7,6 +7,7 @@ const { Root, getConfig } = require('./config');
 const { buildClient, buildServer, cleanClient, cleanServer } = require('./commands/build');
 const runPrettier = require('./commands/prettier');
 const startDevServer = require('./commands/dev');
+const startProdServer = require('./commands/prod');
 const { each } = require('./helpers/promise');
 const { clearConsole } = require('./helpers/console');
 
@@ -27,6 +28,8 @@ const cli = meow(`
 		build              Runs clean and builds a production build for client and server
 		build:client 	   Cleans client build and produces a production build for client
 		build:server 	   Cleans server build and productions a production build for the server
+		start:dev          Starts a development server,
+		start:prod         Starts a production server,
 		clean 			   Cleans the client and server builds	
 		prettier           Runs prettier on changed files
 		prettier:all,      Runs prettier on all files
@@ -46,7 +49,8 @@ const tasks = [
 	{ task: 'build', commands: [ cleanClient, cleanServer, buildClient, buildServer ]},
 	{ task: 'build:client', commands: [ cleanClient, buildClient ]},
 	{ task: 'build:server', commands: [ cleanServer, buildServer ]},
-	{ task: 'dev', commands: [ cleanClient, cleanServer, startDevServer ]},
+	{ task: 'start:dev', commands: [ cleanClient, cleanServer, startDevServer ]},
+	{ tasl: 'start:prod', commands: [ cleanClient, cleanServer, buildClient, buildServer, startProdServer ]},
 	{ task: 'prettier', commands: [ runPrettier ]},
 	{ task: 'prettier:all', commands: [ runPrettier ]},
 	{ task: 'prepare', commands: [ cleanClient, cleanServer, buildClient, buildServer, runPrettier ]}

@@ -52,7 +52,9 @@ const startDevServer = (config = {}) => {
 			.then(() => {
 				if (!stats.hasErrors() && !serverIsStarted) {
 					serverIsStarted = true;
-					server.listen(8000, console.log('woot'));
+					server.listen(process.env.SERVER_PORT, () => {
+						console.log(`Development server started at port ${process.env.SERVER_PORT}`);
+					});
 				}
 			});
 	});
