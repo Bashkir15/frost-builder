@@ -27,10 +27,22 @@ const basePlugins = (env, webpackTarget, isDev, isProd) => {
 		process.stdout.isTTY ? new ProgressPlugin({
 			prefix: 'frost'
 		}) : null,
+
+		// Improves OS compatibilit
+		// See: https://github.com/Urthen/case-sensitive-paths-webpack-plugin
 		new CaseSensitivePathsPlugin(),
+
 		isDev ? new webpack.NamedModulesPlugin() : null,
 		isDev ? new webpack.NoEmitOnErrorsPlugin() : null,
+
+		// Will generate IDs that will persist over builds
 		isProd ? new webpack.HashedModuleIdsPlugin() : null,
+		
+		// This is used to guarentee that our generated [chunkhash]'s are different ONLY
+		// if the content for the respective chunks have changed. This allows for maximization
+		// of a long-term browser caching strategy for the client bundle, avoiding cases
+		// where browsers end up having to download all of the chunks again even though
+		// only one or two may have changed
 		isProd ? new ChunkHashPlugin() : null,
 		isProd ? new webpack.optimize.ModuleConcatenationPlugin() : null,
 	].filter(Boolean)
