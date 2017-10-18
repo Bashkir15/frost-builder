@@ -38,7 +38,8 @@ const defaults = {
 			mangle: false,
 			mergeVars: false
 		},
-		useCacheLoader: true
+		useCacheLoader: true,
+		useEslint: true
 	},
 
 	files: {

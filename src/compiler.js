@@ -12,6 +12,7 @@ const removeEmptyKeys = require('./helpers/emptyKeys');
 const pluginManager = require('./helpers/pluginManager');
 const cacheHash = require('./helpers/hash');
 const getExternals = require('./helpers/getExternals');
+const frostEslintFormatter = require('./helpers/eslint');
 
 const Root = getRoot();
 const pkg = require(resolve(Root, 'package.json'));
@@ -111,6 +112,21 @@ module.exports = (target, env = 'development', config = {}) => {
 
 		module: {
 			rules: [
+				config.build.useEslint ? {
+					test: config.files.babel,
+					include: [config.entry.client, config.entry.server],
+					enforce: 'pre',
+					use: [
+						{
+							loader: 'eslint-loader',
+							options: {
+								formatter: config.build.eslintFormatter
+									? config.build.eslintFormatter
+									: frostEslintFormatter
+							}
+						}
+					]
+				} : {},
 				{
 					test: config.files.babel,
 					loader: 'source-map-loader',
