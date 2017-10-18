@@ -7,6 +7,7 @@ const UglifyPlugin = require('uglifyjs-webpack-plugin');
 const BabiliMinifyPlugin = require('babel-minify-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
+const ServiceWorkerPlugin = require('serviceworker-webpack-plugin');
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -23,7 +24,6 @@ const basePlugins = (env, webpackTarget, isDev, isProd) => {
 		}),
 
 		new CaseSensitivePathsPlugin(),
-
 		isDev ? new webpack.NamedModulesPlugin() : null,
 		isDev ? new webpack.NoEmitOnErrorsPlugin() : null,
 		isProd ? new webpack.HashedModuleIdsPlugin() : null,
@@ -69,7 +69,12 @@ const clientPlugins = (isDev, isProd, hasHmr, build, uglifyCache, hasVendor) => 
 			}) : null,
 		isProd && build.bundleCompression === 'babili' ? 
 			new BabiliMinifyPlugin(build.babiliClientOptions, { comments: false })
-			: null
+			: null,
+
+		build.hasServiceWorker ? new ServiceWorkerPlugin({
+			entry: build.serviceWorkerEntry,
+			excludes: ['*hot-update', '**/*.map', '**/stats.json']
+		}) : null
 	].filter(Boolean)
 };
 

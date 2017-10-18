@@ -21,6 +21,7 @@
     "loader-utils": "^1.1.0",
     "lodash": "^4.17.4",
     "meow": "^3.7.0",
+    "serviceworker-webpack-plugin": "^0.2.3",
     "source-map-loader": "^0.2.2",
     "stats-webpack-plugin": "^0.6.1",
     "uglifyjs-webpack-plugin": "^1.0.0-beta.3",
