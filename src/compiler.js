@@ -168,7 +168,13 @@ module.exports = (target, env = 'development', config = {}) => {
 				},
 				{
 					test: config.files.fonts,
-					use: 'file-loader'
+					loader: 'file-loader',
+					options: {
+						name: isProd
+							? 'file-[hash:base62:8].[ext]'
+							: '[path][name].[ext]',
+						emitFile: isClient
+					}
 				},
 				{
 					test: config.files.yaml,
