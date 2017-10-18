@@ -75,6 +75,7 @@ module.exports = (target, env = 'development', config = {}) => {
 		devtool,
 		target: webpackTarget,
 		context: Root,
+		performance: config.performance || {},
 		externals: isServer ? getExternals() : undefined,
 		entry: removeEmptyKeys({
 			vendors: hasVendor ? [
