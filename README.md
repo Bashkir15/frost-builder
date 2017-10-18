@@ -19,12 +19,12 @@ The Frost Builder is meant to be a hands-off, easy way to get started with Moder
 
 ## Install
 ```console
-	$ npm install -D frost-builder
+$ npm install -D frost-builder
 ```
 
 or
 ```console
-		$ yarn add -D frost-builder
+$ yarn add -D frost-builder
 ```
 
 ## Usage
@@ -98,6 +98,45 @@ export function startServer(config = {}) {
 }
 ```
 
+
+Want to spin up a production server? No Problem
+> This is slightly different than the example pictured above. In this we are actually loading our config file, in the dev example picture above, it was assumed you were passing it as an agument. 
+```js
+import { resolve, dirname } from 'path';
+import cosmiconfig from 'cosmiconfig';
+import express from 'express';
+
+const configLoader = cosmiconfig('frost', {
+	stopDir: process.cwd()
+});
+
+async function main() {
+	const { config, filepath } = await configLoader.load(__dirname);
+	const root = dirname(filepath);
+
+	const clientOutput = resolve(root, config.output.client);
+	const serverOutput = resolve(root, config.output.server);
+
+	const clientStats = require(`${clientOutput}/stats.json`);
+	const serverRender = require(`${serverOutput}/main.js`).default;
+
+	const server = express();
+	server.use(express.static(config.output.public, clientOutput));
+	server.listen(8000);
+}
+
+process.nextTick(main);
+```
+
+A little bit of boilerplate, but it is easy as that! Coming soon will be a frost-boilerplate will all of this setup for you!
+
 ## Customizing
 ## Roadmap
+
+Coming Features! 
+
+- Support for Dll plugin
+- The ability to "eject" like you would with Create React App to edit the underlying config
+- ...?
+
 ## License
