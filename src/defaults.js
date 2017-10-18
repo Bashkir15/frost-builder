@@ -8,7 +8,8 @@ const defaults = {
 
 	output: {
 		client: 'build/client',
-		server: 'build/server'
+		server: 'build/server',
+		public: '/static/',
 	},
 
 	babelOptions: {

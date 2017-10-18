@@ -6,6 +6,7 @@ const chalk = require('chalk');
 const { Root, getConfig } = require('./config');
 const { buildClient, buildServer, cleanClient, cleanServer } = require('./commands/build');
 const runPrettier = require('./commands/prettier');
+const startDevServer = require('./commands/dev');
 const { each } = require('./helpers/promise');
 const { clearConsole } = require('./helpers/console');
 
@@ -45,6 +46,7 @@ const tasks = [
 	{ task: 'build', commands: [ cleanClient, cleanServer, buildClient, buildServer ]},
 	{ task: 'build:client', commands: [ cleanClient, buildClient ]},
 	{ task: 'build:server', commands: [ cleanServer, buildServer ]},
+	{ task: 'dev', commands: [ cleanClient, cleanServer, startDevServer ]},
 	{ task: 'prettier', commands: [ runPrettier ]},
 	{ task: 'prettier:all', commands: [ runPrettier ]},
 	{ task: 'prepare', commands: [ cleanClient, cleanServer, buildClient, buildServer, runPrettier ]}

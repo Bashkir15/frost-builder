@@ -53,7 +53,7 @@ console.log('Problematic:', Problematic);
 const isLoaderSpecific = req => Boolean(/\.(eot|woff|woff2|ttf|otf|svg|png|jpg|jpeg|gif|webp|webm|ico|mp4|mp3|ogg|html|pdf|swf|css|scss|sass|sss|less)$/.exec(req));
 
 module.exports = () => (context, req, cb) => {
-	const basename = request.split('/')[0];
+	const basename = req.split('/')[0];
 
 	if (BuiltIns.has(basename)) {
 		return cb(null, `commonjs ${req}`);
