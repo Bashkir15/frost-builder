@@ -28,6 +28,7 @@ const basePlugins = (env, webpackTarget, isDev, isProd) => {
 		isDev ? new webpack.NoEmitOnErrorsPlugin() : null,
 		isProd ? new webpack.HashedModuleIdsPlugin() : null,
 		isProd ? new ChunkHashPlugin() : null,
+		isProd ? new webpack.optimize.ModuleConcatenationPlugin() : null,
 	].filter(Boolean)
 };
 
