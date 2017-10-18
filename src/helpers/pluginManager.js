@@ -5,6 +5,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const StatsPlugin = require('stats-webpack-plugin');
 const UglifyPlugin = require('uglifyjs-webpack-plugin');
 const BabiliMinifyPlugin = require('babel-minify-webpack-plugin');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
@@ -27,6 +28,11 @@ const basePlugins = (env, webpackTarget, isDev, isProd) => {
 
 const clientPlugins = (isDev, isProd, hasHmr, build, uglifyCache) => {
 	return [
+		new ExtractCssChunks({
+			filename: isDev
+				? '[name].css'
+				: '[name]-[contenthash:base62:8].css'
+		}),
 		isProd ? new StatsPlugin('stats.json') : null,
 		isProd ? new BundleAnalyzerPlugin({
 			analyzerMode: 'static',

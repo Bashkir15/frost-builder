@@ -33,7 +33,8 @@ const defaults = {
 			flipComparisons: false,
 			mangle: false,
 			mergeVars: false
-		}
+		},
+		useCacheLoader: true
 	},
 
 	files: {

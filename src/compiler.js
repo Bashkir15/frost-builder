@@ -5,6 +5,7 @@ const fs = require('fs');
 const { resolve } = require('path');
 const getRoot = require('app-root-dir').get;
 const chalk = require('chalk');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 const { configureCompiler, buildEntryAndOutput } = require('./helpers/compiler');
 const removeEmptyKeys = require('./helpers/emptyKeys');
@@ -40,6 +41,20 @@ module.exports = (target, env = 'development', config = {}) => {
 
 	const loaderCache = resolve(Root, cacheHash('loader', pkg, target, env));
 	const uglifyCache = resolve(Root, cacheHash('uglify', pkg, target, env));
+
+	const cacheLoader = config.build.useCacheLoader ? {
+		loader: 'cache-loader',
+		options: {
+			cacheDirectory: loaderCache
+		}
+	} : null;
+
+	const cssLoaderOptions = {
+		modules: true,
+		localIdentName: '[local]-[hash:base62:8]',
+		minimize: false,
+		sourceMap: config.build.enableSourceMaps
+	};
 
 	const plugins = pluginManager(env, webpackTarget, isDev, isProd, isServer, hasHrm, config, uglifyCache);
 
@@ -97,9 +112,30 @@ module.exports = (target, env = 'development', config = {}) => {
 				},
 				{
 					test: config.files.babel,
-					use: {
-						loader: 'babel-loader'
-					}
+					use: [
+						cacheLoader,
+						{
+							loader: 'babel-loader'
+						}
+					].filter(Boolean)
+				},
+				{
+					test: config.files.styles,
+					use: isClient ? ExtractCssChunks.extract({
+						use: [
+							cacheLoader,
+							{
+								loader: 'css-loader',
+								options: cssLoaderOptions
+							}
+						].filter(Boolean)
+					}) : [
+						cacheLoader,
+						{
+							loader: 'css-loader/locals',
+							options: cssLoaderOptions
+						}
+					].filter(Boolean)
 				},
 				{
 					test: config.files.raster,
