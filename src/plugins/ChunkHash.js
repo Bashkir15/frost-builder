@@ -1,5 +1,13 @@
 'use strict';
 
+/** This is a slightly more modern approach to hashing than the
+ *  'webpack-md5-hash'. For some reason the SHA256 Version does not always
+ *  work as intended and creates different hashes for the same content, hurting
+ *  our caching strategies. This is simply a replacement of the md5 with the
+ *  loader-utils implementation which also supports short generated hashes using
+ *  base62 encoding instead of hex
+ */
+
 const { getHashDigest } = require('loader-utils');
 
 const compareModules = (a, b) => {

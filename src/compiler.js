@@ -107,6 +107,7 @@ module.exports = (target, env = 'development', config = {}) => {
 				: '[name]-[chunkhash].js',
 			path: isServer ? serverOutput : clientOutput,
 			publicPath: config.output.public,
+			// Enables COL without credentials. Useful for CDNs
 			crossOriginLoading: 'anonymous'
 		},
 
