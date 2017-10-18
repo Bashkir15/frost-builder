@@ -38,10 +38,14 @@ const defaults = {
 			mangle: false,
 			mergeVars: false
 		},
+		hasServiceWorker: false,
+		serviceWorkerEntry: 'client/sw.js',
 		useCacheLoader: true,
-		useEslint: true
+		useEslint: true,
+		usePostCss: true
 	},
 
+	performance: {},
 	files: {
 		babel: /\.(js|mjs|jsx)$/,
 		styles: /\.(css|sss|pcss)$/,
