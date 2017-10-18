@@ -10,6 +10,8 @@ const SriPlugin = require('webpack-subresource-integrity');
 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
+const MissingModulesPlugin = require('../plugins/MissingModules');
+
 const basePlugins = (env, webpackTarget, isDev, isProd) => {
 	return [
 		new webpack.DefinePlugin({
@@ -34,6 +36,7 @@ const clientPlugins = (isDev, isProd, hasHmr, build, uglifyCache) => {
 				? '[name].css'
 				: '[name]-[contenthash:base62:8].css'
 		}),
+		isDev ? new MissingModulesPlugin() : null,
 		isProd ? new SriPlugin({
 			hashFuncNames: [ 'sha256', 'sha512' ],
 			enabled: true
