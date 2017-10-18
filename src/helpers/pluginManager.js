@@ -25,7 +25,7 @@ const basePlugins = (env, webpackTarget, isDev, isProd) => {
 	].filter(Boolean)
 };
 
-const clientPlugins = (isDev, isProd, hasHmr, build) => {
+const clientPlugins = (isDev, isProd, hasHmr, build, uglifyCache) => {
 	return [
 		isProd ? new StatsPlugin('stats.json') : null,
 		isProd ? new BundleAnalyzerPlugin({
@@ -39,6 +39,9 @@ const clientPlugins = (isDev, isProd, hasHmr, build) => {
 		isProd && build.bundleCompression === 'uglify' ?
 			new UglifyPlugin({
 				sourcemap: build.enableSourceMaps,
+				parallel: {
+					cache: uglifyCache
+				},
 				uglifyOptions: build.uglifyOptions
 			}) : null,
 		isProd && build.bundleCompression === 'babili' ? 
@@ -62,11 +65,11 @@ const serverPlugins = (isDev, isProd, build) => {
 };
 
 
-const managePlugins = (env, webpackTarget, isDev, isProd, isServer, hasHmr, { build }) => {
+const managePlugins = (env, webpackTarget, isDev, isProd, isServer, hasHmr, { build }, uglifyCache) => {
 	const base = basePlugins(env, webpackTarget, isDev, isProd);
 	const plugins = isServer 
 		? base.concat(...serverPlugins(isDev, isProd, build))
-		: base.concat(...clientPlugins(isDev, isProd, hasHmr, build))
+		: base.concat(...clientPlugins(isDev, isProd, hasHmr, build, uglifyCache))
 	return plugins;
 };
 

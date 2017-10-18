@@ -9,6 +9,7 @@ const chalk = require('chalk');
 const { configureCompiler, buildEntryAndOutput } = require('./helpers/compiler');
 const removeEmptyKeys = require('./helpers/emptyKeys');
 const pluginManager = require('./helpers/pluginManager');
+const cacheHash = require('./helpers/hash');
 
 const Root = getRoot();
 const pkg = require(resolve(Root, 'package.json'));
@@ -36,7 +37,11 @@ module.exports = (target, env = 'development', config = {}) => {
 
 	const prefix = chalk.bold(target.toUpperCase());
 	const devtool = config.build.enableSourceMaps ? 'source-map' : false;
-	const plugins = pluginManager(env, webpackTarget, isDev, isProd, isServer, hasHrm, config);
+
+	const loaderCache = resolve(Root, cacheHash('loader', pkg, target, env));
+	const uglifyCache = resolve(Root, cacheHash('uglify', pkg, target, env));
+
+	const plugins = pluginManager(env, webpackTarget, isDev, isProd, isServer, hasHrm, config, uglifyCache);
 
 	console.log(chalk.underline(`${prefix} Configuration`));
 	console.log(`→ Environment: ${env}`);
