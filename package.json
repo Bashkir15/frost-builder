@@ -1,7 +1,7 @@
 {
   "name": "frost-builder",
   "description": "A modern build configuration for modern web applications",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "Forrest Collins",
     "email": "forrdev@gmail.com",
