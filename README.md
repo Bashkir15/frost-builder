@@ -43,94 +43,20 @@ Commands:
     build  		Cleans the build directories and the produces a production build of client and server
     build:client        Functions the same as build but only acts on the client bundles
     build:server        Functions the same as build but only acts on the server bundles
+    start:dev           Spins up a dev server with HMR
+    start:prod          Spins up a test production server
     clean               Cleans up the client and server build directories
     prettier            Runs prettier on changed files
     prettier:all        Runs prettier on all files
     prepare             Runs build first, and then will run prettier:all to format code
 ```
 
-For a more concrete example, say you want to spin up a development server for an isomorphic application you are building. Frost makes that simple.
-
-```js
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackHotServerMiddleware from 'webpack-hot-server-middle-ware';
-import express from 'express';
-import { compiler } from 'frost-builder';
-
-export function startServer(config = {}) {
-	const clientConfig = compiler('client', 'development', config);
-	const serverConfig = compiler('server', 'development', config);
-	const multiCompiler = webpack([ clientConfig, serverConfig ]);
-	const clientCompiler = multiCompiler.compilers[0];
-
-	const devMiddleware = webpackDevMiddleware(multiCompiler, {
-		publicPath: config.output.public,
-		quiet: true,
-		noInfo: true
-	});
-	const hotMiddleware = webpackHotMiddleware(clientCompiler);
-	const hotServerMiddleware = webpackHotServerMiddleware(multiCompiler, {
-		serverRendererOptions: {
-			outputPath: config.output.client
-		}
-	});
-
-	const server = express();
-	server.use(express.static(config.output.public, config.output.client));
-	server.use(devMiddleware);
-	server.use(hotMiddleware);
-	server.use(hotServerMiddleware);
-
-	let serverIsStarted = false;
-
-	multiCompiler.plugin('invalid', () => {
-		console.log('compiling...');
-	});
-
-	multiCompiler.plugin('done', stats => {
-		if (!stats.hasErrors() && !serverIsStarted) {
-			serverIsStarted = true;
-			server.listen(8000);
-		}
-	});
-}
-```
-
-
-Want to spin up a production server? No Problem
-> This is slightly different than the example pictured above. In this we are actually loading our config file, in the dev example picture above, it was assumed you were passing it as an agument. 
-```js
-import { resolve, dirname } from 'path';
-import cosmiconfig from 'cosmiconfig';
-import express from 'express';
-
-const configLoader = cosmiconfig('frost', {
-	stopDir: process.cwd()
-});
-
-async function main() {
-	const { config, filepath } = await configLoader.load(__dirname);
-	const root = dirname(filepath);
-
-	const clientOutput = resolve(root, config.output.client);
-	const serverOutput = resolve(root, config.output.server);
-
-	const clientStats = require(`${clientOutput}/stats.json`);
-	const serverRender = require(`${serverOutput}/main.js`).default;
-
-	const server = express();
-	server.use(express.static(config.output.public, clientOutput));
-	server.listen(8000);
-}
-
-process.nextTick(main);
-```
-
-A little bit of boilerplate, but it is easy as that! Coming soon will be a frost-boilerplate will all of this setup for you!
-
 ## Customizing
+
+To use this builder as an npm script or through cli commands, it is expected that you have a configuration folder in your root directory. This file can be a .rc file, a json file, or a javascript file.
+
+Is this too much work for not enough flex with the builder? Frost exports the compiler directly, meanings that you can modify the underlying cofig for your project directly and use it in any way you see fit.
+
 ## Roadmap
 
 Coming Features! 
