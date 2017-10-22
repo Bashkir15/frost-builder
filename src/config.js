@@ -53,7 +53,28 @@ const getConfig = async flags => {
 				console.log('Configuration:');
 				jsome(config);
 			}
-			
+
+			return config;
+		})
+		.then(async config => {
+			const loadedModules = await Promise.all(
+				loaders.map(path => {
+					const file = get(config, path);
+					if (file) {
+						return require(join(Root, file));
+					} else {
+						return null;
+					}
+				})
+			);
+
+			loaders.forEach((path,index) => {
+				const loadedModule = loadedModules[index];
+				if (loadedModule) {
+					set(config, path, loadedModule.default || loadedModule);
+				};
+			});
+
 			return config;
 		})
 };
