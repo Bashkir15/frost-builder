@@ -218,5 +218,10 @@ module.exports = (target, env = 'development', config = {}) => {
 		plugins: [
 			...plugins
 		].filter(Boolean)
+	}, {
+		isServer,
+		isClient,
+		isDev,
+		isProd
 	});
 };
