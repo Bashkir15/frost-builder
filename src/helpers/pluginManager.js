@@ -48,7 +48,7 @@ const basePlugins = (env, webpackTarget, isDev, isProd) => {
 	].filter(Boolean)
 };
 
-const clientPlugins = (isDev, isProd, hasHmr, build, uglifyCache, hasVendor) => {
+const clientPlugins = (isDev, isProd, hasHmr, build, hasVendor) => {
 	return [
 		hasVendor ? new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',
@@ -79,7 +79,7 @@ const clientPlugins = (isDev, isProd, hasHmr, build, uglifyCache, hasVendor) => 
 			new UglifyPlugin({
 				sourcemap: build.enableSourceMaps,
 				parallel: {
-					cache: uglifyCache
+					cache: true
 				},
 				uglifyOptions: build.uglifyOptions
 			}) : null,

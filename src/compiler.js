@@ -42,7 +42,7 @@ module.exports = (target, env = 'development', config = {}) => {
 	const devtool = config.build.enableSourceMaps ? 'source-map' : false;
 
 	const loaderCache = resolve(Root, cacheHash('loader', pkg, target, env));
-	const uglifyCache = resolve(Root, cacheHash('uglify', pkg, target, env));
+	
 
 	const cacheLoader = config.build.useCacheLoader ? {
 		loader: 'cache-loader',
@@ -65,7 +65,7 @@ module.exports = (target, env = 'development', config = {}) => {
 		}
 	} : null;
 
-	const plugins = pluginManager(env, webpackTarget, isDev, isProd, isServer, hasHrm, config, uglifyCache);
+	const plugins = pluginManager(env, webpackTarget, isDev, isProd, isServer, hasHrm, config);
 
 	console.log(chalk.underline(`${prefix} Configuration`));
 	console.log(`→ Environment: ${env}`);
