@@ -78,9 +78,8 @@ const clientPlugins = (isDev, isProd, hasHmr, build, hasVendor) => {
 		isProd && build.bundleCompression === 'uglify' ?
 			new UglifyPlugin({
 				sourcemap: build.enableSourceMaps,
-				parallel: {
-					cache: true
-				},
+				parallel: true,
+				cache: true,
 				uglifyOptions: build.uglifyOptions
 			}) : null,
 		isProd && build.bundleCompression === 'babili' ? 
