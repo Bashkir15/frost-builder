@@ -12,6 +12,8 @@ const defaults = {
 		public: '/static/',
 	},
 
+	hook: {},
+
 	babelOptions: {
 		presets: [],
 		plugins: []

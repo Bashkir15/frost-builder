@@ -16,6 +16,7 @@ const frostEslintFormatter = require('./helpers/eslint');
 
 const Root = getRoot();
 const pkg = require(resolve(Root, 'package.json'));
+const ident = item => item;
 
 module.exports = (target, env = 'development', config = {}) => {
 	const {
@@ -37,6 +38,10 @@ module.exports = (target, env = 'development', config = {}) => {
 		hasHrm,
 		hmrMiddleware,
 	} = buildEntryAndOutput(config, isServer, isDev);
+
+	const webpackHook = config.hook.webpack
+		? config.hook.webpack
+		: ident;
 
 	const prefix = chalk.bold(target.toUpperCase());
 	const devtool = config.build.enableSourceMaps ? 'source-map' : false;
@@ -77,7 +82,7 @@ module.exports = (target, env = 'development', config = {}) => {
 		console.log(`→ Use Cache Loader: ${config.build.useCacheLoader} [Hash: ${loaderCache}]`);
 	}
 
-	return {
+	return webpackHook({
 		name,
 		devtool,
 		target: webpackTarget,
@@ -213,5 +218,5 @@ module.exports = (target, env = 'development', config = {}) => {
 		plugins: [
 			...plugins
 		].filter(Boolean)
-	};
+	});
 };
