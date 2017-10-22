@@ -2,7 +2,7 @@
 
 const cosmiconfig = require('cosmiconfig');
 const getRoot = require('app-root-dir').get;
-const { relative, resolve } = require('path');
+const { relative, resolve, join } = require('path');
 const { get, set, defaultsDeep } = require('lodash');
 const chalk = require('chalk');
 const jsome = require('jsome');
@@ -16,6 +16,10 @@ const resolveFor = [
 	'entry.clientVendor',
 	'output.server',
 	'output.client'
+];
+
+const loaders = [
+	'hook.webpack'
 ];
 
 const configLoader = cosmiconfig('frost', {
@@ -34,8 +38,9 @@ const configPromise = configLoader
 		return resolveConfigPaths(merged);
 	})
 	.catch(error => {
-
+		throw new Error(`Error parsing config file: ${error}. Root: ${Root}`);
 	});
+
 
 const getConfig = async flags => {
 	return await configPromise
@@ -44,6 +49,11 @@ const getConfig = async flags => {
 				set(config, key, flags[key]);
 			}
 
+			if (flags.verbose) {
+				console.log('Configuration:');
+				jsome(config);
+			}
+			
 			return config;
 		})
 };
