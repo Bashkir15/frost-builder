@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const config = {
 	entry: {
 		client: 'client/index.js',
