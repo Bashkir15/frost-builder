@@ -5,6 +5,7 @@ const runPrettier = require('./commands/prettier');
 const startDevServer = require('./commands/dev');
 const startProdServer = require('./commands/prod');
 const compiler = require('./compiler');
+const notify = require('./notify');
 
 module.exports = {
 	buildServer,
@@ -14,5 +15,6 @@ module.exports = {
 	startDevServer,
 	startProdServer,
 	runPrettier,
-	compiler
+	compiler,
+	notify
 };
