@@ -1,0 +1,14 @@
+npm-debug.log
+node_modules
+build
+client
+server
+frost.config.js
+
+.cache
+.eslintrc
+.editorconfig
+.git*
+.npmignore
+
+package-lock.json

@@ -45,7 +45,8 @@ const buildAll = async (config = {}) => {
 	await cleanServer(config);
 	await buildClient(config);
 	await buildServer(config);
-}
+};
+
 module.exports = {
 	buildClient,
 	buildServer,

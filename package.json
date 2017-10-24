@@ -11,6 +11,10 @@
     "frost": "src/cli"
   },
   "main": "src/index.js",
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.js": "eslint"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
