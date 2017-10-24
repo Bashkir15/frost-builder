@@ -12,7 +12,7 @@ module.exports = {
 	cleanServer,
 	cleanClient,
 	startDevServer,
-	startProdServer
+	startProdServer,
 	runPrettier,
 	compiler
 };

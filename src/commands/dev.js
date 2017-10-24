@@ -5,7 +5,7 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
-const { createServer } = require('frost-server');
+const createServer = function() {};
 
 const compiler = require('../compiler');
 const formatOutput = require('../helpers/format');

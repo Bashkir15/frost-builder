@@ -8,5 +8,5 @@ const config = {
 		client: 'build/client',
 		server: 'build/server',
 		public: '/static/'
-	}
+	},
 }

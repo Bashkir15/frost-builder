@@ -1,6 +1,6 @@
 'use strict';
 
-const { createServer } = require('frost-server');
+const createServer = function() {}
 
 module.exports = (config = {}) => {
 	const clientStats = require(`${config.output.client}/stats.json`);

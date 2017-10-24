@@ -13,15 +13,16 @@ const { each } = require('./helpers/promise');
 const { clearConsole } = require('./helpers/console');
 
 const pkg = require('../package.json');
-const appPkg = require(Root, '/package.json');
-const appInfo = `running on ${chalk.bold.blue(appPkg.name)}-${appPkg.version}`;
+const appPkg = require(Root + '/package.json');
 
 const isInteractive = process.stdout.isTTY;
 if (isInteractive) {
-	clearConsole();
+	//clearConsole();
 }
 
-console.log(chalk.bold(`Frost ${chalk.green(`v ${pkg.version}`)} ${appInfo}`);
+const appInfo = `running on ${chalk.bold.blue(appPkg.name)}-${appPkg.version}`;
+
+console.log(chalk.bold(`Frost ${chalk.green(`v ${pkg.version}`)} ${appInfo}`));
 
 updateNotifier({
 	pkg,
