@@ -5,7 +5,7 @@ const chalk = require('chalk');
 const updateNotifier = require('update-notifier');
 
 const { Root, getConfig } = require('./config');
-const { buildClient, buildServer, cleanClient, cleanServer } = require('./commands/build');
+const { buildClient, buildServer, cleanClient, cleanServer, buildAll } = require('./commands/build');
 const runPrettier = require('./commands/prettier');
 const startDevServer = require('./commands/dev');
 const startProdServer = require('./commands/prod');
@@ -59,7 +59,7 @@ const flags = cli.flags;
 
 const tasks = [
 	{ task: 'clean', commands: [ cleanClient, cleanServer ]},
-	{ task: 'build', commands: [ cleanClient, cleanServer, buildClient, buildServer ]},
+	{ task: 'build', commands: [ buildAll ]},
 	{ task: 'build:client', commands: [ cleanClient, buildClient ]},
 	{ task: 'build:server', commands: [ cleanServer, buildServer ]},
 	{ task: 'start:dev', commands: [ cleanClient, cleanServer, startDevServer ]},
