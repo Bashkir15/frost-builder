@@ -48,6 +48,12 @@ const defaults = {
 		usePostCss: true
 	},
 
+	pwa: {
+		hasServiceWorker: false,
+		serviceWorkerEntry: 'client/sw.js',
+		useManifestLoader: false
+	},
+
 	performance: {},
 	files: {
 		babel: /\.(js|mjs|jsx)$/,

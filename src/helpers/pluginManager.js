@@ -48,7 +48,7 @@ const basePlugins = (env, webpackTarget, isDev, isProd) => {
 	].filter(Boolean)
 };
 
-const clientPlugins = (isDev, isProd, hasHmr, build, hasVendor) => {
+const clientPlugins = (isDev, isProd, hasHmr, build, pwa, hasVendor) => {
 	return [
 		hasVendor ? new webpack.optimize.CommonsChunkPlugin({
 			name: 'vendor',
@@ -86,8 +86,8 @@ const clientPlugins = (isDev, isProd, hasHmr, build, hasVendor) => {
 			new BabiliMinifyPlugin(build.babiliClientOptions, { comments: false })
 			: null,
 
-		build.hasServiceWorker ? new ServiceWorkerPlugin({
-			entry: build.serviceWorkerEntry,
+		pwa.hasServiceWorker ? new ServiceWorkerPlugin({
+			entry: pwa.serviceWorkerEntry,
 			excludes: ['*hot-update', '**/*.map', '**/stats.json']
 		}) : null
 	].filter(Boolean)
@@ -108,11 +108,11 @@ const serverPlugins = (isDev, isProd, build) => {
 };
 
 
-const managePlugins = (env, webpackTarget, isDev, isProd, isServer, hasHmr, { build }, uglifyCache, hasVendor) => {
+const managePlugins = (env, webpackTarget, isDev, isProd, isServer, hasHmr, { build, pwa }, uglifyCache, hasVendor) => {
 	const base = basePlugins(env, webpackTarget, isDev, isProd);
 	const plugins = isServer 
 		? base.concat(...serverPlugins(isDev, isProd, build))
-		: base.concat(...clientPlugins(isDev, isProd, hasHmr, build, uglifyCache))
+		: base.concat(...clientPlugins(isDev, isProd, hasHmr, build, pwa, uglifyCache))
 	return plugins;
 };
 
