@@ -212,6 +212,17 @@ module.exports = (target, env = 'development', config = {}) => {
 					test: config.files.yaml,
 					loaders: [ 'json-loader', 'yaml-loader' ]
 				},
+				config.pwa.useManifestLoader ? {
+					test: /manifest.json$/,
+					use: [
+						{
+							loader: 'file-loader'
+						},
+						{
+							loader: require.resolve('./loaders/manifest')
+						}
+					]
+				}
 			]
 		},
 
